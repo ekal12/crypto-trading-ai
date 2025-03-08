@@ -1,42 +1,41 @@
-
 import { 
   Portfolio, 
   CoinSuggestion, 
   BestCoin, 
   DataSource,
+  TradeTactic,
   generateMockPortfolios,
   generateMockSuggestions,
   generateBestCoins,
-  generateDataSources
+  generateDataSources,
+  generateTradeTactics
 } from './mockData';
 
-// In a real application, this would fetch data from the web or an API
-// For this demo, we're using mock data
 export const fetchTopPortfolios = async (count: number = 10): Promise<Portfolio[]> => {
-  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 1500));
   return generateMockPortfolios(count);
 };
 
 export const fetchCoinSuggestions = async (count: number = 5): Promise<CoinSuggestion[]> => {
-  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 1200));
   return generateMockSuggestions(count);
 };
 
 export const fetchBestCoins = async (count: number = 3): Promise<BestCoin[]> => {
-  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 800));
   return generateBestCoins(count);
 };
 
 export const fetchDataSources = async (): Promise<DataSource[]> => {
-  // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 600));
   return generateDataSources();
 };
 
-// Format a timestamp to a readable format
+export const fetchTradeTactics = async (count: number = 3): Promise<TradeTactic[]> => {
+  await new Promise(resolve => setTimeout(resolve, 900));
+  return generateTradeTactics(count);
+};
+
 export const formatTime = (timestamp: number): string => {
   const now = Date.now();
   const diff = now - timestamp;
@@ -52,7 +51,6 @@ export const formatTime = (timestamp: number): string => {
   }
 };
 
-// Format currency to readable format
 export const formatCurrency = (amount: number): string => {
   if (amount >= 1e9) {
     return `$${(amount / 1e9).toFixed(1)}B`;
@@ -65,7 +63,6 @@ export const formatCurrency = (amount: number): string => {
   }
 };
 
-// Get color class based on action
 export const getActionColorClass = (action: 'buy' | 'sell' | 'hold'): string => {
   switch (action) {
     case 'buy':
@@ -79,7 +76,6 @@ export const getActionColorClass = (action: 'buy' | 'sell' | 'hold'): string => 
   }
 };
 
-// Get icon based on action
 export const getActionIcon = (action: 'buy' | 'sell' | 'hold'): string => {
   switch (action) {
     case 'buy':
@@ -93,7 +89,6 @@ export const getActionIcon = (action: 'buy' | 'sell' | 'hold'): string => {
   }
 };
 
-// Get risk level description
 export const getRiskLevelDescription = (riskLevel: 'low' | 'medium' | 'high'): string => {
   switch (riskLevel) {
     case 'low':
@@ -107,7 +102,6 @@ export const getRiskLevelDescription = (riskLevel: 'low' | 'medium' | 'high'): s
   }
 };
 
-// Get analysis method description
 export const getAnalysisMethodDescription = (method: string): string => {
   switch (method) {
     case 'AI Pattern Recognition':
@@ -125,4 +119,39 @@ export const getAnalysisMethodDescription = (method: string): string => {
     default:
       return 'Multiple technical and fundamental indicators';
   }
+};
+
+export const getProfitColorClass = (profit: number): string => {
+  if (profit >= 10) return 'text-green-500';
+  if (profit >= 5) return 'text-green-400';
+  if (profit >= 0) return 'text-green-300';
+  if (profit >= -5) return 'text-red-300';
+  if (profit >= -10) return 'text-red-400';
+  return 'text-red-500';
+};
+
+export const formatDate = (timestamp: number): string => {
+  return new Date(timestamp).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};
+
+export const getTimeUntilNextUpdate = (): string => {
+  const now = new Date();
+  
+  let nextUpdate = new Date(now);
+  if (now.getHours() < 12) {
+    nextUpdate.setHours(12, 0, 0, 0);
+  } else {
+    nextUpdate.setHours(24, 0, 0, 0);
+  }
+  
+  const diffMs = nextUpdate.getTime() - now.getTime();
+  const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+  
+  return `${diffHrs}h ${diffMins}m`;
 };
