@@ -1,4 +1,3 @@
-
 import { 
   Portfolio, 
   CoinSuggestion, 
@@ -6,7 +5,7 @@ import {
   DataSource,
   generateMockPortfolios,
   generateMockSuggestions,
-  generateBestCoin,
+  generateBestCoins,
   generateDataSources
 } from './mockData';
 
@@ -24,10 +23,10 @@ export const fetchCoinSuggestions = async (count: number = 5): Promise<CoinSugge
   return generateMockSuggestions(count);
 };
 
-export const fetchBestCoin = async (): Promise<BestCoin> => {
+export const fetchBestCoins = async (count: number = 3): Promise<BestCoin[]> => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 800));
-  return generateBestCoin();
+  return generateBestCoins(count);
 };
 
 export const fetchDataSources = async (): Promise<DataSource[]> => {

@@ -1,4 +1,3 @@
-
 // Portfolio data structure
 export interface Portfolio {
   id: string;
@@ -185,37 +184,62 @@ export const generateMockSuggestions = (count: number = 5): CoinSuggestion[] => 
   return suggestions.sort((a, b) => b.confidence - a.confidence);
 };
 
-export const generateBestCoin = (): BestCoin => {
+// Generate multiple best coins
+export const generateBestCoins = (count: number = 3): BestCoin[] => {
   const coins = [
     { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC' },
     { id: 'ethereum', name: 'Ethereum', symbol: 'ETH' },
+    { id: 'solana', name: 'Solana', symbol: 'SOL' },
+    { id: 'cardano', name: 'Cardano', symbol: 'ADA' },
+    { id: 'ripple', name: 'Ripple', symbol: 'XRP' },
+    { id: 'dogecoin', name: 'Dogecoin', symbol: 'DOGE' },
+    { id: 'litecoin', name: 'Litecoin', symbol: 'LTC' },
+    { id: 'polkadot', name: 'Polkadot', symbol: 'DOT' },
+    { id: 'avalanche', name: 'Avalanche', symbol: 'AVAX' },
+    { id: 'chainlink', name: 'Chainlink', symbol: 'LINK' }
   ];
   
-  const randomCoin = coins[Math.floor(Math.random() * coins.length)];
+  const bestCoins: BestCoin[] = [];
+  const selectedIndices = new Set<number>();
   
-  return {
-    ...randomCoin,
-    price: +(Math.random() * 10000 + 1000).toFixed(2),
-    suggestedActions: {
-      shortTerm: { 
-        action: 'Sell', 
-        timeframe: `${Math.floor(Math.random() * 7) + 1} days`,
-        potentialProfit: +(Math.random() * 10 + 5).toFixed(2)
-      },
-      mediumTerm: { 
-        action: 'Hold', 
-        timeframe: `${Math.floor(Math.random() * 10) + 7} days`,
-        potentialProfit: +(Math.random() * 20 + 10).toFixed(2)
-      },
-      longTerm: { 
-        action: 'Hold', 
-        timeframe: `${Math.floor(Math.random() * 20) + 14} days`,
-        potentialProfit: +(Math.random() * 30 + 20).toFixed(2)
-      }
-    },
-    riskLevel: 'low',
-    confidence: +(Math.random() * 10 + 90).toFixed(1) // 90-100%
-  };
+  while (selectedIndices.size < count && selectedIndices.size < coins.length) {
+    const randomIndex = Math.floor(Math.random() * coins.length);
+    if (!selectedIndices.has(randomIndex)) {
+      selectedIndices.add(randomIndex);
+      const coin = coins[randomIndex];
+      
+      bestCoins.push({
+        ...coin,
+        price: +(Math.random() * 10000 + 1000).toFixed(2),
+        suggestedActions: {
+          shortTerm: { 
+            action: ['Buy', 'Sell', 'Hold'][Math.floor(Math.random() * 3)], 
+            timeframe: `${Math.floor(Math.random() * 7) + 1} days`,
+            potentialProfit: +(Math.random() * 10 + 5).toFixed(2)
+          },
+          mediumTerm: { 
+            action: ['Buy', 'Sell', 'Hold'][Math.floor(Math.random() * 3)], 
+            timeframe: `${Math.floor(Math.random() * 10) + 7} days`,
+            potentialProfit: +(Math.random() * 20 + 10).toFixed(2)
+          },
+          longTerm: { 
+            action: ['Buy', 'Sell', 'Hold'][Math.floor(Math.random() * 3)], 
+            timeframe: `${Math.floor(Math.random() * 20) + 14} days`,
+            potentialProfit: +(Math.random() * 30 + 20).toFixed(2)
+          }
+        },
+        riskLevel: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)] as 'low' | 'medium' | 'high',
+        confidence: +(Math.random() * 10 + 90).toFixed(1) // 90-100%
+      });
+    }
+  }
+  
+  return bestCoins.sort((a, b) => b.confidence - a.confidence);
+};
+
+// Keep the single coin generator for backward compatibility
+export const generateBestCoin = (): BestCoin => {
+  return generateBestCoins(1)[0];
 };
 
 export const generateDataSources = (): DataSource[] => {
