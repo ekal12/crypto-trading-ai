@@ -82,18 +82,10 @@ export interface TradingStep {
   coinName: string;
   coinSymbol: string;
   timing: string;
-  price?: number;
   condition?: string;
   profitTarget?: number;
   stopLoss?: number;
-}
-
-export interface DataSource {
-  id: string;
-  name: string;
-  url: string;
-  status: 'online' | 'offline';
-  lastUpdated: number; // Unix timestamp
+  price?: number;
 }
 
 // Generate mock top portfolios
@@ -346,7 +338,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
       steps: [
         {
           order: 1,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'ethereum',
           coinName: 'Ethereum',
           coinSymbol: 'ETH',
@@ -357,7 +349,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 2,
-          action: 'sell',
+          action: 'sell' as 'sell', // Type assertion to match expected type
           coinId: 'ethereum',
           coinName: 'Ethereum',
           coinSymbol: 'ETH',
@@ -366,7 +358,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 3,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'bitcoin',
           coinName: 'Bitcoin',
           coinSymbol: 'BTC',
@@ -377,7 +369,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         }
       ],
       expectedProfitPercentage: 14.5,
-      riskLevel: 'medium',
+      riskLevel: 'medium' as 'medium', // Type assertion to match expected type
       timeframe: '1 week',
       confidence: 87,
       analysisReason: 'Historical data shows 78% success rate for this pattern over the last 3 months. ETH and BTC volatility metrics indicate favorable conditions for this strategy.'
@@ -388,7 +380,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
       steps: [
         {
           order: 1,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'solana',
           coinName: 'Solana',
           coinSymbol: 'SOL',
@@ -399,7 +391,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 2,
-          action: 'sell',
+          action: 'sell' as 'sell', // Type assertion to match expected type
           coinId: 'solana',
           coinName: 'Solana',
           coinSymbol: 'SOL',
@@ -408,7 +400,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         }
       ],
       expectedProfitPercentage: 12.3,
-      riskLevel: 'high',
+      riskLevel: 'high' as 'high', // Type assertion to match expected type
       timeframe: '48 hours',
       confidence: 76,
       analysisReason: 'SOL has demonstrated rapid rebounds after dips below 30 RSI. Current market sentiment and technical indicators suggest a high probability of a quick bounce.'
@@ -419,7 +411,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
       steps: [
         {
           order: 1,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'bitcoin',
           coinName: 'Bitcoin',
           coinSymbol: 'BTC',
@@ -430,7 +422,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 2,
-          action: 'sell',
+          action: 'sell' as 'sell', // Type assertion to match expected type
           coinId: 'bitcoin',
           coinName: 'Bitcoin',
           coinSymbol: 'BTC',
@@ -439,7 +431,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 3,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'avalanche',
           coinName: 'Avalanche',
           coinSymbol: 'AVAX',
@@ -450,7 +442,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         }
       ],
       expectedProfitPercentage: 18.2,
-      riskLevel: 'medium',
+      riskLevel: 'medium' as 'medium', // Type assertion to match expected type
       timeframe: '10 days',
       confidence: 82,
       analysisReason: 'Statistical analysis shows BTC often leads market movements with AVAX following with amplified returns. This strategy has yielded an average of 16.8% profit in similar market conditions.'
@@ -461,7 +453,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
       steps: [
         {
           order: 1,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'chainlink',
           coinName: 'Chainlink',
           coinSymbol: 'LINK',
@@ -472,7 +464,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 2,
-          action: 'sell',
+          action: 'sell' as 'sell', // Type assertion to match expected type
           coinId: 'chainlink',
           coinName: 'Chainlink',
           coinSymbol: 'LINK',
@@ -481,7 +473,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         }
       ],
       expectedProfitPercentage: 10.5,
-      riskLevel: 'low',
+      riskLevel: 'low' as 'low', // Type assertion to match expected type
       timeframe: '5 days',
       confidence: 90,
       analysisReason: 'LINK and DOT have a 0.86 correlation coefficient but occasionally diverge. This strategy capitalizes on the historical tendency for their prices to reconverge.'
@@ -492,7 +484,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
       steps: [
         {
           order: 1,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'cardano',
           coinName: 'Cardano',
           coinSymbol: 'ADA',
@@ -503,7 +495,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 2,
-          action: 'buy',
+          action: 'buy' as 'buy', // Type assertion to match expected type
           coinId: 'cardano',
           coinName: 'Cardano',
           coinSymbol: 'ADA',
@@ -512,7 +504,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         },
         {
           order: 3,
-          action: 'sell',
+          action: 'sell' as 'sell', // Type assertion to match expected type
           coinId: 'cardano',
           coinName: 'Cardano',
           coinSymbol: 'ADA',
@@ -521,7 +513,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
         }
       ],
       expectedProfitPercentage: 16.8,
-      riskLevel: 'medium',
+      riskLevel: 'medium' as 'medium', // Type assertion to match expected type
       timeframe: '2 weeks',
       confidence: 84,
       analysisReason: 'ADA has shown patterns of sharp rebounds after consecutive down days. Current sentiment metrics and on-chain activity suggest accumulation by large holders.'
@@ -548,10 +540,7 @@ export const generateTradeTactics = (count: number = 3): TradeTactic[] => {
       id: `tactic-${i + 1}`,
       name: template.name,
       description: template.description,
-      steps: template.steps.map(step => ({
-        ...step,
-        price: step.price || Math.random() * 10000 + 100
-      })),
+      steps: template.steps,
       expectedProfitPercentage: +(template.expectedProfitPercentage + profitVariation).toFixed(1),
       riskLevel: template.riskLevel,
       timeframe: template.timeframe,
