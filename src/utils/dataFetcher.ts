@@ -1,3 +1,4 @@
+
 import { 
   Portfolio, 
   CoinSuggestion, 
@@ -51,6 +52,19 @@ export const formatTime = (timestamp: number): string => {
   }
 };
 
+// Format currency to readable format
+export const formatCurrency = (amount: number): string => {
+  if (amount >= 1e9) {
+    return `$${(amount / 1e9).toFixed(1)}B`;
+  } else if (amount >= 1e6) {
+    return `$${(amount / 1e6).toFixed(1)}M`;
+  } else if (amount >= 1e3) {
+    return `$${(amount / 1e3).toFixed(1)}K`;
+  } else {
+    return `$${amount.toFixed(2)}`;
+  }
+};
+
 // Get color class based on action
 export const getActionColorClass = (action: 'buy' | 'sell' | 'hold'): string => {
   switch (action) {
@@ -76,5 +90,39 @@ export const getActionIcon = (action: 'buy' | 'sell' | 'hold'): string => {
       return '↔️';
     default:
       return '';
+  }
+};
+
+// Get risk level description
+export const getRiskLevelDescription = (riskLevel: 'low' | 'medium' | 'high'): string => {
+  switch (riskLevel) {
+    case 'low':
+      return 'Stable asset with lower volatility';
+    case 'medium':
+      return 'Moderate volatility with balanced risk/reward';
+    case 'high':
+      return 'High volatility with potential for large gains/losses';
+    default:
+      return '';
+  }
+};
+
+// Get analysis method description
+export const getAnalysisMethodDescription = (method: string): string => {
+  switch (method) {
+    case 'AI Pattern Recognition':
+      return 'Machine learning algorithms analyzing historical price patterns';
+    case 'On-Chain Analysis':
+      return 'Analysis of blockchain transactions and wallet activities';
+    case 'Whale Tracking':
+      return 'Monitoring large-scale transactions from major holders';
+    case 'Technical Indicators':
+      return 'Traditional technical analysis using market indicators';
+    case 'Volume Analysis':
+      return 'Study of trading volumes and liquidity patterns';
+    case 'Sentiment Analysis':
+      return 'Analysis of market sentiment and social media trends';
+    default:
+      return 'Multiple technical and fundamental indicators';
   }
 };

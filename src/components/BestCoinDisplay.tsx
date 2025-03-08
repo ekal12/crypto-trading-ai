@@ -30,6 +30,59 @@ const BestCoinCard: React.FC<{ bestCoin: BestCoin, index: number }> = ({ bestCoi
               {bestCoin.riskLevel.toUpperCase()}
             </span>
           </div>
+          <div className="text-xs mt-1 text-muted-foreground">
+            via {bestCoin.analysisMethod}
+          </div>
+        </div>
+      </div>
+
+      {/* Market performance section */}
+      <div className="mb-4 p-3 rounded-md border border-terminal-border">
+        <h5 className="text-xs font-semibold mb-2">Market Performance</h5>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col">
+            <span className="text-xs text-muted-foreground">Market Cap</span>
+            <span className="text-sm">${(bestCoin.marketCap / 1e9).toFixed(1)}B</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs text-muted-foreground">24h Volume</span>
+            <span className="text-sm">${(bestCoin.volume24h / 1e9).toFixed(1)}B</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs text-muted-foreground">24h Change</span>
+            <span className={`text-sm ${bestCoin.priceChange24h >= 0 ? 'terminal-success' : 'terminal-danger'}`}>
+              {bestCoin.priceChange24h >= 0 ? '↗' : '↘'} {bestCoin.priceChange24h}%
+            </span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs text-muted-foreground">7d Change</span>
+            <span className={`text-sm ${bestCoin.priceChange7d >= 0 ? 'terminal-success' : 'terminal-danger'}`}>
+              {bestCoin.priceChange7d >= 0 ? '↗' : '↘'} {bestCoin.priceChange7d}%
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Analysis breakdown */}
+      <div className="mb-4 p-3 rounded-md border border-terminal-border">
+        <h5 className="text-xs font-semibold mb-2">Analysis Breakdown</h5>
+        <div className="grid grid-cols-4 gap-2">
+          <div className="col-span-1">
+            <div className="text-xs text-muted-foreground">Technical</div>
+            <div className="text-sm">{bestCoin.technicalScore}/100</div>
+          </div>
+          <div className="col-span-1">
+            <div className="text-xs text-muted-foreground">Fundamental</div>
+            <div className="text-sm">{bestCoin.fundamentalScore}/100</div>
+          </div>
+          <div className="col-span-1">
+            <div className="text-xs text-muted-foreground">Sentiment</div>
+            <div className="text-sm">{bestCoin.sentimentScore}/100</div>
+          </div>
+          <div className="col-span-1">
+            <div className="text-xs text-muted-foreground">Whale %</div>
+            <div className="text-sm">{bestCoin.whaleAccumulation}%</div>
+          </div>
         </div>
       </div>
       

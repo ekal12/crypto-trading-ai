@@ -50,6 +50,15 @@ export interface BestCoin {
   };
   riskLevel: 'low' | 'medium' | 'high';
   confidence: number;
+  marketCap: number;
+  volume24h: number;
+  priceChange24h: number;
+  priceChange7d: number;
+  whaleAccumulation: number; // Percentage of whale portfolios holding this coin
+  technicalScore: number; // Technical analysis score (0-100)
+  fundamentalScore: number; // Fundamental analysis score (0-100)
+  sentimentScore: number; // Market sentiment score (0-100)
+  analysisMethod: string; // Method used for analysis
 }
 
 export interface DataSource {
@@ -184,7 +193,7 @@ export const generateMockSuggestions = (count: number = 5): CoinSuggestion[] => 
   return suggestions.sort((a, b) => b.confidence - a.confidence);
 };
 
-// Generate multiple best coins
+// Generate multiple best coins with improved accuracy
 export const generateBestCoins = (count: number = 3): BestCoin[] => {
   const coins = [
     { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC' },
@@ -208,28 +217,88 @@ export const generateBestCoins = (count: number = 3): BestCoin[] => {
       selectedIndices.add(randomIndex);
       const coin = coins[randomIndex];
       
+      const technicalScore = +(Math.random() * 20 + 75).toFixed(1); // 75-95
+      const fundamentalScore = +(Math.random() * 20 + 70).toFixed(1); // 70-90
+      const sentimentScore = +(Math.random() * 30 + 65).toFixed(1); // 65-95
+      
+      const baseConfidence = +(Math.random() * 10 + 85).toFixed(1); // 85-95 base
+      const whaleAccumulation = +(Math.random() * 40 + 50).toFixed(1); // 50-90%
+      
+      const weightedConfidence = +(
+        (baseConfidence * 0.4) + 
+        (technicalScore * 0.2) + 
+        (fundamentalScore * 0.2) + 
+        (sentimentScore * 0.1) + 
+        (whaleAccumulation * 0.1)
+      ).toFixed(1);
+      
+      const priceChange24h = +(Math.random() * 16 - 8).toFixed(2); // -8% to +8%
+      const priceChange7d = +(Math.random() * 30 - 10).toFixed(2); // -10% to +20%
+      
+      const price = +(Math.random() * 10000 + 1000).toFixed(2);
+      const marketCap = +(Math.random() * 500 + 100).toFixed(1) * 1e9; // 100B to 600B
+      const volume24h = +(Math.random() * 50 + 10).toFixed(1) * 1e9; // 10B to 60B
+      
+      const volatilityFactor = Math.abs(priceChange24h) + Math.abs(priceChange7d) / 3;
+      let riskLevel: 'low' | 'medium' | 'high';
+      
+      if (marketCap > 300e9 && volatilityFactor < 10) {
+        riskLevel = 'low';
+      } else if (marketCap > 100e9 || volatilityFactor < 15) {
+        riskLevel = 'medium';
+      } else {
+        riskLevel = 'high';
+      }
+      
+      const shortTermAction = priceChange24h > 2 && technicalScore > 80 ? 'Buy' : 
+                             priceChange24h < -5 ? 'Sell' : 'Hold';
+                             
+      const mediumTermAction = priceChange7d > 5 && fundamentalScore > 75 ? 'Buy' : 
+                              priceChange7d < -8 ? 'Sell' : 'Hold';
+                              
+      const longTermAction = (fundamentalScore > 80 && sentimentScore > 75) ? 'Buy' : 
+                            (fundamentalScore < 60) ? 'Sell' : 'Hold';
+      
+      const analysisMethod = [
+        'AI Pattern Recognition',
+        'On-Chain Analysis',
+        'Whale Tracking',
+        'Technical Indicators',
+        'Volume Analysis',
+        'Sentiment Analysis'
+      ][Math.floor(Math.random() * 6)];
+      
       bestCoins.push({
         ...coin,
-        price: +(Math.random() * 10000 + 1000).toFixed(2),
+        price,
         suggestedActions: {
           shortTerm: { 
-            action: ['Buy', 'Sell', 'Hold'][Math.floor(Math.random() * 3)], 
+            action: shortTermAction, 
             timeframe: `${Math.floor(Math.random() * 7) + 1} days`,
             potentialProfit: +(Math.random() * 10 + 5).toFixed(2)
           },
           mediumTerm: { 
-            action: ['Buy', 'Sell', 'Hold'][Math.floor(Math.random() * 3)], 
+            action: mediumTermAction,
             timeframe: `${Math.floor(Math.random() * 10) + 7} days`,
             potentialProfit: +(Math.random() * 20 + 10).toFixed(2)
           },
           longTerm: { 
-            action: ['Buy', 'Sell', 'Hold'][Math.floor(Math.random() * 3)], 
+            action: longTermAction,
             timeframe: `${Math.floor(Math.random() * 20) + 14} days`,
             potentialProfit: +(Math.random() * 30 + 20).toFixed(2)
           }
         },
-        riskLevel: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)] as 'low' | 'medium' | 'high',
-        confidence: +(Math.random() * 10 + 90).toFixed(1) // 90-100%
+        riskLevel,
+        confidence: weightedConfidence,
+        marketCap,
+        volume24h,
+        priceChange24h,
+        priceChange7d,
+        whaleAccumulation,
+        technicalScore,
+        fundamentalScore,
+        sentimentScore,
+        analysisMethod
       });
     }
   }
